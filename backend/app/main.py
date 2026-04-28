@@ -107,10 +107,22 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 # ---------- Static Files ----------
-static_dir = Path(__file__).resolve().parent.parent / "static"
-static_dir.mkdir(parents=True, exist_ok=True)
-(static_dir / "images").mkdir(parents=True, exist_ok=True)
-app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+# Calculate base path
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Attempt to use a local static folder, but fallback to /tmp if needed for Render
+static_dir = BASE_DIR / "static"
+
+try:
+    # Create directories only if they don't exist
+    static_dir.mkdir(parents=True, exist_ok=True)
+    (static_dir / "images").mkdir(parents=True, exist_ok=True)
+    
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+    logger.info(f"✅ Static files mounted at {static_dir}")
+except Exception as e:
+    logger.error(f"❌ Failed to setup static files: {e}")
+    # This prevents the app from crashing even if static files fail
 
 # ---------- Routers ----------
 app.include_router(auth_router)
