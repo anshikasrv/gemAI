@@ -1,5 +1,6 @@
 .codex-logs/
 
 backend/.env
+frontend/.env
 
 backend/.venv
