@@ -130,8 +130,8 @@ except Exception as e:
 # app.include_router(zip_router)
 # ---------- Routers ----------
 app.include_router(auth_router)
-app.include_router(chat_router, prefix="/api")
-app.include_router(zip_router, prefix="/api")
+app.include_router(chat_router)
+app.include_router(zip_router)
 
 
 # ---------- Health Check ----------
