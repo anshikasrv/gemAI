@@ -1,0 +1,5 @@
+.codex-logs/
+
+backend/.env
+
+backend/.venv
