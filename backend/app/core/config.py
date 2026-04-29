@@ -29,6 +29,9 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    #new---------->>>>>>>>
+    BACKEND_URL: str = "https://gemai-sx4k.onrender.com"
+
     # Database
     DATABASE_URL: str = "sqlite:///./gem_ai.db"
     TURSO_DATABASE_URL: str = ""

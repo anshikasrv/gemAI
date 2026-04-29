@@ -7,6 +7,8 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
+
 from app.core.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.chat import Chat
@@ -156,6 +158,11 @@ async def send_message(
         logger.error(f"AI service error: {e}")
         ai_response = "I'm sorry, I encountered an error. Please try again."
 
+    # --- ADD THE FIX HERE ---
+    if image_url and not image_url.startswith("http"):
+        # This converts 'static/images/abc.jpg' into 'https://gemai-sx4k.onrender.com/static/images/abc.jpg'
+        image_url = f"{settings.BACKEND_URL}/{image_url.lstrip('/')}"
+    
     # Save AI response
     ai_msg = Message(
         chat_id=chat_id,
